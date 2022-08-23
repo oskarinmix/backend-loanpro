@@ -113,6 +113,31 @@ const updateUserBalance = async (req, res) => {
     }
     const newUser = await User.findOneAndUpdate(
       { _id: id },
+      { balance: Number(balance) },
+      { new: true }
+    );
+    res.statusMessage = "BALANCE_UPDATED";
+    res
+      .status(200)
+      .json({ msg: "Balance update successfully", ok: true, user: newUser });
+  } catch (error) {
+    res.statusMessage = "ERROR_UPDATING_BALANCE";
+    res.status(400).send({ msg: "Error updating balance", ok: false, error });
+    return;
+  }
+};
+const reloadUserBalance = async (req, res) => {
+  const { balance } = req.body;
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      res.statusMessage = "USER_NOT_FOUND";
+      res.status(400).send({ msg: "No user with this email ", ok: false });
+      return;
+    }
+    const newUser = await User.findOneAndUpdate(
+      { _id: id },
       { balance: Number(user.balance) + Number(balance) },
       { new: true }
     );
@@ -190,4 +215,5 @@ export default {
   changeUserStatus,
   getAllUsers,
   getUserById,
+  reloadUserBalance,
 };

@@ -10,6 +10,7 @@ const {
   updateUserBalance,
   changeUserStatus,
   getAllUsers,
+  reloadUserBalance,
   getUserById,
 } = AuthController;
 // const isAuth = require("../middlewares/Auth");
@@ -28,6 +29,7 @@ router.put("/change-password", changePassword);
 router.get("/users", getAllUsers);
 router.get("/users/:id", getUserById);
 router.put("/balance/:id", updateUserBalance);
+router.put("/reload/:id", reloadUserBalance);
 router.put("/status/:id", changeUserStatus);
 /* PROTECTED Route. */
 // router.get("/protected", isAuth, function (req, res, next) {
